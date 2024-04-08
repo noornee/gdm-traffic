@@ -2,8 +2,10 @@
 
 **GDM-Traffic (GoogleDistanceMatrix-Traffic)**
 
-GDM-Traffic is a Go program that fetches live traffic data from the Google Maps Platform Distance Matrix API based on the specified origin and destination locations.
-This was written with the golang standard library It does not require any external dependncy besides `golang`
+GDM-Traffic is a CLI tool that fetches live traffic data from the Google Maps Platform Distance Matrix API based on the specified origin and destination coordinates.
+
+
+This was written with the golang standard library It does not require any external dependncy besides `go`
 
 # Building from source
 ```bash
