@@ -77,7 +77,7 @@ export MATRIX_API_KEY=your-api-key
 }
 ```
 
-# Get the duration in traffic by specfying the --dit flag
+### (bonus task) Get the duration in traffic by specfying the --dit flag
 
 ```bash
 ./gdm-traffic --origin='123.4,-123.456' --dest='1234.012,-123.567' --dit
