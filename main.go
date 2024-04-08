@@ -13,15 +13,15 @@ import (
 )
 
 var (
-	origin      string
-	destination string
-	travelTime  bool
+	origin            string
+	destination       string
+	durationInTraffic bool
 )
 
 func init() {
 	flag.StringVar(&origin, "origin", "", "accepts longitude and latitude (comma-separated). e.g.: --origin='12.345,-98.765'")
 	flag.StringVar(&destination, "dest", "", "accepts longitude and latitude (comma-separated). e.g.: --dest='45.678,-123.456'")
-	flag.BoolVar(&travelTime, "tt", false, "prints duration in traffic/travel time")
+	flag.BoolVar(&durationInTraffic, "dit", false, "prints duration in traffic")
 }
 
 func main() {
@@ -52,20 +52,25 @@ func main() {
 		utils.ErrorLog.Fatal(err.Error())
 	}
 
-	var matrixData handler.Response
+	var matrixData handler.MatrixAPIResponse
 	err = json.Unmarshal(body, &matrixData)
 	if err != nil {
 		utils.ErrorLog.Fatal("error unmarshaling data", err.Error())
 	}
 
-	if travelTime == true {
-		dit := matrixData.Rows[0].Elements[0].DurationInTraffic.Text
-		fmt.Printf("Travel time for origin %s and destination %s is %s\n", origin, destination, dit)
+	// FINAL
+
+	// Duratiom in traffic text
+	dit := matrixData.Rows[0].Elements[0].DurationInTraffic.Text
+
+	// if tbe travel time flag is passed and the value of `dit` isnt an empty string
+	if durationInTraffic == true && dit != "" {
+		utils.InfoLog.Printf("Travel time for origin '%s' and destination '%s' is %s\n", origin, destination, dit)
 		return
 	}
-
-	// print response
-	fmt.Println(string(body))
+	// else
+	// just print the full response
+	utils.InfoLog.Println(string(body))
 }
 
 // handles when no flag is passed
@@ -82,17 +87,6 @@ func handleEmptyFlags() {
 	fmt.Println("Usage:")
 	flag.PrintDefaults()
 	os.Exit(1)
-}
-
-// handles when the flag passed cannot be converted to floating point number
-func handleInvalidFlagValue1() {
-	// Check if the passed flags are valid floats
-	if _, err := strconv.ParseFloat(origin, 64); err != nil {
-		utils.ErrorLog.Fatal("Invalid longitude value: Please provide a valid floating-point number")
-	}
-	if _, err := strconv.ParseFloat(destination, 64); err != nil {
-		utils.ErrorLog.Fatal("Invalid latitude value: Please provide a valid floating-point number")
-	}
 }
 
 // This handles a situation when the value passed to the flags are invalid

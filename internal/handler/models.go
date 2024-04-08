@@ -1,6 +1,6 @@
 package handler
 
-type Response struct {
+type MatrixAPIResponse struct {
 	DestinationAddresses []string `json:"destination_addresses"`
 	OriginAddresses      []string `json:"origin_addresses"`
 	Rows                 []struct {
@@ -9,6 +9,10 @@ type Response struct {
 				Text  string `json:"text"`
 				Value int    `json:"value"`
 			} `json:"distance"`
+			Duration struct {
+				Text  string `json:"text"`
+				Value int    `json:"value"`
+			} `json:"duration"`
 			DurationInTraffic struct {
 				Text  string `json:"text"`
 				Value int    `json:"value"`
