@@ -8,7 +8,7 @@ import (
 	"github.com/noornee/gdm-traffic/internal/utils"
 )
 
-// Sends a request to the Google Maps Distance Matrix API to retrieve traffic data.
+// FetchDistanceMatrixData send request to the Google Maps Distance Matrix API to retrieve traffic data.
 func FetchDistanceMatrixData(origin, destination, api_key string) ([]byte, error) {
 	URL := fmt.Sprintf(
 		"https://maps.googleapis.com/maps/api/distancematrix/json?origins=%s&destinations=%s&key=%s&departure_time=now&traffic_model=best_guess",
@@ -30,6 +30,9 @@ func FetchDistanceMatrixData(origin, destination, api_key string) ([]byte, error
 
 	// read response body
 	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
 
 	return body, nil
 }

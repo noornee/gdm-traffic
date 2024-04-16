@@ -35,7 +35,7 @@ func main() {
 	case origin == "" || destination == "":
 		// If either origin or destination is empty, handle appropriately
 		handleEmptyFlags()
-	case true:
+	default:
 		// Check and process the validity of provided flags
 		handleInvalidFlagValue()
 	}
@@ -53,7 +53,7 @@ func main() {
 	}
 
 	// if the dit flag is passed
-	if durationInTraffic == true {
+	if durationInTraffic {
 		var matrixData handler.MatrixAPIResponse
 		err = json.Unmarshal(body, &matrixData)
 		if err != nil {
@@ -73,7 +73,7 @@ func main() {
 	utils.InfoLog.Println(string(body))
 }
 
-// handles when no flag is passed
+// handleNoFlags handles when no flag is passed
 func handleNoFlags() {
 	utils.ErrorLog.Println("No flags provided")
 	fmt.Printf("Run %s --help to see the available flags\n", os.Args[0])
@@ -81,7 +81,7 @@ func handleNoFlags() {
 	os.Exit(1)
 }
 
-// handles when the flag passed is an empty string
+// handleEmptyFlags handles when the flag passed is an empty string
 func handleEmptyFlags() {
 	utils.ErrorLog.Println("Both origin (--origin) and destination (--dest) flags are required")
 	fmt.Println("Usage:")
@@ -89,7 +89,7 @@ func handleEmptyFlags() {
 	os.Exit(1)
 }
 
-// This handles a situation when the value passed to the flags are invalid
+// handleInvalidFlagValue This handles a situation when the value passed to the flags are invalid
 func handleInvalidFlagValue() {
 	// Split origin and destination values by comma
 	originCords := strings.Split(origin, ",")
